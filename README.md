@@ -1,93 +1,59 @@
-# 📘 Atmos API Documentation Server
+# 🌾 Ndaru Farm Backend API
 
-## Server Dokumentasi API Siap Production
+## Core API Server untuk Ekosistem Agritech
 
-Sebuah **server dokumentasi API modern, aman, dan scalable** yang dibangun menggunakan **NestJS v11** dan didukung oleh **Scalar API Reference**.
+Sebuah **backend API modern, aman, dan scalable** yang dibangun menggunakan **NestJS**. Sistem ini bertindak sebagai tulang punggung (core engine) untuk platform agritech Ndaru Farm.
 
-Project ini dirancang untuk menyediakan **infrastruktur dokumentasi API yang rapi dan production-grade**, lengkap dengan validasi terstruktur, logging terpusat, dan security hardening.
+Project ini dirancang untuk mengelola alur data e-commerce secara komprehensif, mulai dari manajemen produk pertanian, pemesanan jasa, hingga integrasi pembayaran otomatis menggunakan payment gateway.
 
-> Cocok untuk tim engineering yang ingin dokumentasi API yang bersih, profesional, dan mudah dikelola tanpa konfigurasi Swagger yang berantakan.
-> Ringan, modular, dan siap digunakan di environment production.
+> Cocok untuk mendukung ekosistem aplikasi pertanian digital yang membutuhkan pemrosesan transaksi yang cepat, aman, dan pencatatan data yang terstruktur.
+> Dirancang secara modular agar mudah dikembangkan (*scalable*) untuk kebutuhan bisnis di masa depan.
 
-![NestJS](https://img.shields.io/badge/NestJS-11-red?logo=nestjs\&style=flat-square)
-![Scalar](https://img.shields.io/badge/API%20Docs-Scalar-yellow?style=flat-square)
-![Swagger](https://img.shields.io/badge/OpenAPI-Swagger-green?logo=swagger\&style=flat-square)
-![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue?logo=typescript\&style=flat-square)
-![Winston](https://img.shields.io/badge/Logger-Winston-black?style=flat-square)
-![Helmet](https://img.shields.io/badge/Security-Helmet-lightgrey?style=flat-square)
-![Supabase](https://img.shields.io/badge/Backend-Supabase-3ECF8E?logo=supabase\&style=flat-square)
-
----
+-----
 
 ## 🧩 Requirements
 
-* **Node.js ≥ 22 (LTS direkomendasikan)**
-* npm ≥ 10
+  * **Node.js ≥ 20 (LTS direkomendasikan)**
+  * npm ≥ 10
 
-> Untuk production sangat disarankan menggunakan Node.js versi LTS agar stabil dan mendapat dukungan jangka panjang.
+> Untuk *production*, sangat disarankan menggunakan Node.js versi LTS agar stabil dalam menangani proses transaksi *payment gateway*.
 
----
+-----
 
 ## 🎯 Overview
 
-`atmos-api-documentation` adalah **server khusus untuk dokumentasi API** yang dibangun menggunakan:
+`NDARU-FARM-BACKEND` adalah **server utama** yang melayani aplikasi *frontend* Ndaru Farm. Arsitektur ini dibangun menggunakan:
 
-* **NestJS** sebagai backend framework modular dan scalable
-* **Scalar** untuk tampilan dokumentasi API yang modern dan interaktif
-* **Swagger (OpenAPI)** untuk standar schema API
-* **Winston** untuk structured logging
-* **Helmet** untuk pengamanan HTTP header
-* **Supabase** client untuk integrasi backend
+  * **NestJS** sebagai framework *backend* modular berbasis TypeScript.
+  * **Midtrans SDK** untuk menangani *webhook* dan otomatisasi sistem pembayaran klien.
+  * **Swagger (OpenAPI)** untuk menghasilkan dokumentasi API (*endpoint*) secara otomatis bagi tim *frontend*.
+  * **Class-Validator & Class-Transformer** untuk memastikan validitas data *payload* transaksi.
 
-Server ini membantu menjaga **konsistensi dokumentasi API**, memastikan semua endpoint terdokumentasi dengan standar yang sama dan mudah diakses oleh tim frontend, QA, maupun integrator eksternal.
+Server ini memastikan semua logika bisnis dari operasional Ndaru Farm berjalan dengan presisi dan aman dari sisi *server-side*.
 
----
+-----
 
 ## ✨ Fitur Utama
 
-### 📚 Dokumentasi API Modern
+### 🌱 Manajemen Data Agritech Terpusat
 
-* Auto-generate OpenAPI schema menggunakan `@nestjs/swagger`
-* UI dokumentasi interaktif berbasis Scalar
-* Dokumentasi yang cepat, ringan, dan searchable
-* Dukungan DTO-driven schema
-* Endpoint non-API dapat dikecualikan dari dokumentasi
+  * Endpoint lengkap untuk pengelolaan katalog jual beli sayuran segar.
+  * Sistem manajemen *booking* untuk layanan jasa pertanian dan pelatihan masyarakat umum.
+  * Inventarisasi penyediaan sarana pertanian.
 
----
+### 💳 Integrasi Payment Gateway (Midtrans)
 
-### 🛡️ Keamanan & Hardening
+  * *Generate* Virtual Account (VA), QRIS, dan metode pembayaran lainnya secara instan.
+  * Penanganan *Callback/Webhook* yang aman untuk *auto-update* status transaksi.
+  * Sistem rekonsiliasi data pembayaran.
 
-* Proteksi HTTP header menggunakan **Helmet**
-* Dukungan compression untuk performa
-* Validasi request menggunakan `class-validator`
-* Transformasi data menggunakan `class-transformer`
-* Environment-based configuration
+### 🛡️ Keamanan & Validasi
 
----
+  * Proteksi rute menggunakan sistem autentikasi (JWT/Session).
+  * Validasi *input request* menggunakan `class-validator` untuk mencegah manipulasi data.
+  * Environment-based configuration untuk memisahkan *key* Midtrans mode *Sandbox* dan *Production*.
 
-### 📊 Logging & Monitoring
-
-* Logging terstruktur menggunakan **Winston**
-* Dukungan `nest-winston` untuk integrasi dengan NestJS
-* Pemisahan log error dan log gabungan
-* Mudah diintegrasikan ke sistem observability (ELK, Grafana, dsb.)
-
-Script monitoring log:
-
-```bash
-npm run logs:dev
-npm run logs:error
-```
-
----
-
-### 🔗 Integrasi Backend
-
-* Client **Supabase** tersedia untuk integrasi data
-* Struktur modular sehingga mudah dikembangkan
-* Cocok sebagai centralized API documentation service
-
----
+-----
 
 ## ⚙️ Environment Configuration
 
@@ -100,19 +66,24 @@ cp .env.example .env
 ### 📄 .env.example
 
 ```dotenv
-PORT=3000
+PORT=8080
 APP_VERSION=1.0.0
-APP_NAME=ATMOS-API
+APP_NAME=NDARU-FARM-API
 NODE_ENV=development
 
-SUPABASE_URL=your-supabase-url
-SUPABASE_ANON_KEY=your-supabase-anon-key
+# Database Configuration
+DATABASE_URL=your-database-connection-url
 
-LOG_LEVEL=debug
-LOG_FORMAT=pretty
+# Midtrans Configuration
+MIDTRANS_IS_PRODUCTION=false
+MIDTRANS_SERVER_KEY=your-midtrans-server-key
+MIDTRANS_CLIENT_KEY=your-midtrans-client-key
+
+# JWT / Security
+JWT_SECRET=your-super-secret-key
 ```
 
----
+-----
 
 ## ⚡ Quick Start
 
@@ -120,7 +91,7 @@ Clone repository:
 
 ```bash
 git clone <repository-url>
-cd atmos-api-documentation
+cd NDARU-FARM-BACKEND
 npm install
 ```
 
@@ -137,7 +108,7 @@ npm run build
 npm run start:prod
 ```
 
----
+-----
 
 ## 🧪 Testing
 
@@ -148,19 +119,17 @@ npm run test:cov
 npm run test:e2e
 ```
 
----
+-----
 
 ## 🎯 Use Cases
 
-* Dokumentasi API internal perusahaan
-* Centralized API documentation gateway
-* Developer portal untuk tim frontend
-* Standarisasi dokumentasi microservices
-* Portal dokumentasi untuk partner eksternal
+  * Sistem *backend* untuk aplikasi e-commerce produk pertanian.
+  * Platform manajemen penjadwalan *training* atau penyuluhan petani.
+  * Integrasi *headless commerce* yang membutuhkan pemrosesan pembayaran otomatis.
 
----
+-----
 
 ## 📜 License
 
 UNLICENSED
-© 2026 — Atmos API Documentation Server
+© 2026 — Ndaru Farm Development Team
